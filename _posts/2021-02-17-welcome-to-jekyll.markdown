@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Tensorflow.js Example"
 date:   2021-02-17 21:34:10 -0800
 categories: jekyll update
 ---
+
+The "Tensor:" text that pops up is a result of a tensorflow.js model running in the background.  The slight pause is due to the network training.
+
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js">
 </script>
 <body>
