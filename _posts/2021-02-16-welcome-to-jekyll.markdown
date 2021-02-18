@@ -12,6 +12,34 @@ Jekyll requires blog post files to be named according to the following format:
 
 Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
 
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js">
+</script>
+</head>
+<body>
+<div id="output_field"></div>
+</body>
+<script>
+async function learnLinear(){
+
+const model = tf.sequential();
+model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+
+model.compile({
+loss: 'meanSquaredError',
+optimizer: 'sgd'
+});
+
+const xs = tf.tensor2d([-1, 0, 1, 2, 3, 4], [6, 1]);
+const ys = tf.tensor2d([-3, -1, 1, 3, 5, 7], [6, 1]);
+
+await model.fit(xs, ys, {epochs: 250});
+
+document.getElementById('output_field').innerText = 
+model.predict(tf.tensor2d([10], [1, 1]));
+}
+learnLinear()
+</script>
+
 Jekyll also offers powerful support for code snippets:
 
 {% highlight ruby %}
