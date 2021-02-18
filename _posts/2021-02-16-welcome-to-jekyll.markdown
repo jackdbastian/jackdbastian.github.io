@@ -14,7 +14,6 @@ Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit number
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js">
 </script>
-</head>
 <body>
 <div id="output_field"></div>
 </body>
