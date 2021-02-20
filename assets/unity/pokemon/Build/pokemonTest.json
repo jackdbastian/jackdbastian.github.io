@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "CraiglistProject",
+"productVersion": "0.1",
+"dataUrl": "pokemonTest.data.unityweb",
+"wasmCodeUrl": "pokemonTest.wasm.code.unityweb",
+"wasmFrameworkUrl": "pokemonTest.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.4.0f1"
+}
