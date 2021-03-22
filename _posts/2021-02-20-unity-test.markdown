@@ -1,11 +1,9 @@
 ---
-title: "Test Post"
-date: 2021-02-20
-unity_dir: game_post
-categories:
-  - General
-tags:
-  - test
+title: "Apartments for BRO"
+permalink: apts
+layout: post
 ---
 
-This is a test post.
+Many improvements coming soon...
+
+{% include apts_list.html %}

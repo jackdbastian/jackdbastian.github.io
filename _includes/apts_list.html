@@ -1,0 +1,17 @@
+
+<ul>
+{% for apt in site.data.apts_json %}
+    <li> <a href="{{apt.url}}">
+        {{ apt.name }}
+      </a>
+        <ul>
+            <li><img src="{{apt.image_url}}" alt="No Pic" width="200" height="200"></li>
+            <li>{{apt.price}}</li>
+            <li>{{apt.where}}</li>
+            <li>{{apt.datetime}}</li>
+        </ul>
+    </li>
+    
+{% endfor %}
+</ul>
+  
