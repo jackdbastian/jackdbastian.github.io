@@ -5,6 +5,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import json
+from git import Repo
 
 apts = CraigslistHousing(site='sfbay', area='sfc', category='apa',
                          filters={'max_price': 2000,
@@ -53,3 +54,18 @@ with open('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_json.j
     json.dump(apts_json, f)
 
 apts_df.to_csv('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_csv.csv', index = False)
+
+PATH_OF_GIT_REPO = r'/Users/Jack/Documents/GitHub/jackdbastian.github.io/.git'  # make sure .git folder is properly configured
+COMMIT_MESSAGE = 'comment from python script'
+
+def git_push():
+    try:
+        repo = Repo(PATH_OF_GIT_REPO)
+        repo.git.add(update=True)
+        repo.index.commit(COMMIT_MESSAGE)
+        origin = repo.remote(name='origin')
+        origin.push()
+    except:
+        print('Some error occured while pushing the code')    
+
+git_push()
