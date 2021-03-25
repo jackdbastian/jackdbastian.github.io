@@ -4,6 +4,6 @@ permalink: apts
 layout: post
 ---
 
-Many improvements coming soon...
+Hi bro bro!
 
 {% include apts_list.html %}
