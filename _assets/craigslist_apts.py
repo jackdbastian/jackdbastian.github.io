@@ -1,20 +1,24 @@
-
 from craigslist import CraigslistHousing, CraigslistForSale
-import csv
 import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import json
 from git import Repo
 
-apts = CraigslistHousing(site='sfbay', area='sfc', category='apa',
-                         filters={'max_price': 2000,
-                                  'min_price': 1500,
-                                  'min_bedrooms': 1,
-                                  'min_ft2': 450,
-                                  'zip_code': 94114,
-                                  'search_distance': 3.5,
-                                  'has_image': True})
+apts = CraigslistHousing(
+    site='sfbay', 
+    area='sfc', 
+    category='apa',
+    filters={'max_price': 2000,
+            'min_price': 1500,
+            'min_bedrooms': 1,
+            'min_ft2': 450,
+            'zip_code': 94114,
+            'search_distance': 3.5,
+            'has_image': True,
+            'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site'],
+            'parking': ['carport', 'attached garage', 'detached garage', 'off-street parking']}
+    )
 
 apts_list = list(apts.get_results(geotagged=True))
 
@@ -56,7 +60,7 @@ with open('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_json.j
 apts_df.to_csv('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_csv.csv', index = False)
 
 PATH_OF_GIT_REPO = r'/Users/Jack/Documents/GitHub/jackdbastian.github.io/.git'  # make sure .git folder is properly configured
-COMMIT_MESSAGE = 'comment from python script'
+COMMIT_MESSAGE = 'automatic craigslist data update'
 
 def git_push():
     try:
