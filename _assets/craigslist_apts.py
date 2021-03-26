@@ -12,7 +12,7 @@ apts = CraigslistHousing(
     filters={'max_price': 2000,
             'min_price': 1500,
             'min_bedrooms': 1,
-            'min_ft2': 450,
+            'min_ft2': 500,
             'zip_code': 94114,
             'search_distance': 3.5,
             'has_image': True,
