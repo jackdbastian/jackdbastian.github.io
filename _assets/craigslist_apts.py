@@ -52,6 +52,8 @@ def bus_filter(df):
 
 apts_df = bus_filter(apts_df_raw).drop(columns = ['geotag']).drop_duplicates(subset = ["name"])
 
+apts_df = apts_df.sort_values(by=['datetime'], ascending=False)
+
 apts_json = json.loads(apts_df.to_json(orient="records"))
 
 with open('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_json.json', 'w') as f:
