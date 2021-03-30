@@ -16,8 +16,7 @@ apts = CraigslistHousing(
             'zip_code': 94114,
             'search_distance': 3.5,
             'has_image': True,
-            'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site'],
-            'parking': ['carport', 'attached garage', 'detached garage', 'off-street parking']}
+            'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site']}
     )
 
 apts_list = list(apts.get_results(geotagged=True))
