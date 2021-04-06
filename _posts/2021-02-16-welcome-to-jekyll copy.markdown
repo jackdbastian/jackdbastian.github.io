@@ -57,7 +57,7 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 
 </iframe>
 
-<iframe src="https://raw.githubusercontent.com/jackdbastian/misc/master/apts_map.html" height="600px" width="100%" style="border:none;">
+<iframe src="https://github.com/jackdbastian/misc/blob/master/apts_map.html" height="600px" width="100%" style="border:none;">
 
 </iframe>
 
