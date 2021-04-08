@@ -9,12 +9,12 @@ apts = CraigslistHousing(
     site='sfbay', 
     area='sfc', 
     category='apa',
-    filters={'max_price': 2000,
+    filters={'max_price': 2100,
             'min_price': 1500,
             'min_bedrooms': 1,
-            'min_ft2': 500,
+            'min_ft2': 600,
             'zip_code': 94114,
-            'search_distance': 3.5,
+            'search_distance': 4,
             'has_image': True,
             'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site']}
     )
@@ -33,18 +33,18 @@ apts_df_raw = pd.DataFrame(apts_list)
 apts_df_raw[['lat', 'lng']] = pd.DataFrame(apts_df_raw['geotag'].tolist(), index=apts_df_raw.index)
 
 def bus_filter(df):
-    df = df[(df['lat'].between(37.76443 - .007, 37.76443 + .007) & df['lng'].between(-122.4309 - .007, -122.4309 + .007)) |
-            (df['lat'].between(37.76516 - .007, 37.76516 + .007) & df['lng'].between(-122.4197 - .007, -122.4197 + .007)) |
-            (df['lat'].between(37.75602 - .007, 37.75602 + .007) & df['lng'].between(-122.4095 - .007, -122.4095 + .007)) |
-            (df['lat'].between(37.74479 - .007, 37.74479 + .007) & df['lng'].between(-122.4225 - .007, -122.4225 + .007)) |
-            (df['lat'].between(37.77301 - .007, 37.77301 + .007) & df['lng'].between(-122.4459 - .007, -122.4459 + .007)) |
-            (df['lat'].between(37.76826 - .007, 37.76826 + .007) & df['lng'].between(-122.4534 - .007, -122.4534 + .007)) |
-            (df['lat'].between(37.77381 - .007, 37.77381 + .007) & df['lng'].between(-122.4325 - .007, -122.4325 + .007)) |
-            (df['lat'].between(37.75171 - .007, 37.75171 + .007) & df['lng'].between(-122.4275 - .007, -122.4275 + .007)) |
-            (df['lat'].between(37.79924 - .007, 37.79924 + .007) & df['lng'].between(-122.4410 - .007, -122.4410 + .007)) |
-            (df['lat'].between(37.80136 - .007, 37.80136 + .007) & df['lng'].between(-122.4246 - .007, -122.4246 + .007)) |
-            (df['lat'].between(37.78892 - .007, 37.78892 + .007) & df['lng'].between(-122.4187 - .007, -122.4187 + .007)) |
-            (df['lat'].between(37.77874 - .007, 37.77874 + .007) & df['lng'].between(-122.4147 - .007, -122.4147 + .007))]
+    df = df[(df['lat'].between(37.76443 - .01, 37.76443 + .01) & df['lng'].between(-122.4309 - .01, -122.4309 + .01)) |
+            (df['lat'].between(37.76516 - .01, 37.76516 + .01) & df['lng'].between(-122.4197 - .01, -122.4197 + .01)) |
+            (df['lat'].between(37.75602 - .01, 37.75602 + .01) & df['lng'].between(-122.4095 - .01, -122.4095 + .01)) |
+            (df['lat'].between(37.74479 - .01, 37.74479 + .01) & df['lng'].between(-122.4225 - .01, -122.4225 + .01)) |
+            (df['lat'].between(37.77301 - .01, 37.77301 + .01) & df['lng'].between(-122.4459 - .01, -122.4459 + .01)) |
+            (df['lat'].between(37.76826 - .01, 37.76826 + .01) & df['lng'].between(-122.4534 - .01, -122.4534 + .01)) |
+            (df['lat'].between(37.77381 - .01, 37.77381 + .01) & df['lng'].between(-122.4325 - .01, -122.4325 + .01)) |
+            (df['lat'].between(37.75171 - .01, 37.75171 + .01) & df['lng'].between(-122.4275 - .01, -122.4275 + .01)) |
+            (df['lat'].between(37.79924 - .01, 37.79924 + .01) & df['lng'].between(-122.4410 - .01, -122.4410 + .01)) |
+            (df['lat'].between(37.80136 - .01, 37.80136 + .01) & df['lng'].between(-122.4246 - .01, -122.4246 + .01)) |
+            (df['lat'].between(37.78892 - .01, 37.78892 + .01) & df['lng'].between(-122.4187 - .01, -122.4187 + .01)) |
+            (df['lat'].between(37.77874 - .01, 37.77874 + .01) & df['lng'].between(-122.4147 - .01, -122.4147 + .01))]
 
     df = df[df['where'] != 'tenderloin']
     return df
