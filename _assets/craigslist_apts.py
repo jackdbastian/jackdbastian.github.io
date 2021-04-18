@@ -9,14 +9,16 @@ apts = CraigslistHousing(
     site='sfbay', 
     area='sfc', 
     category='apa',
-    filters={'max_price': 2100,
-            'min_price': 1500,
-            'max_bedrooms': 1,
-            'min_ft2': 600,
-            'zip_code': 94114,
-            'search_distance': 4,
-            'has_image': True,
-            'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site']}
+    filters={
+        'max_price': 2100,
+        'min_price': 1500,
+        'max_bedrooms': 1,
+        'min_ft2': 600,
+        'zip_code': 94114,
+        'search_distance': 4,
+        'has_image': True,
+        'laundry': ['w/d in unit', 'laundry in bldg', 'laundry on site']
+        }
     )
 
 apts_list = list(apts.get_results(geotagged=True))
@@ -47,6 +49,7 @@ def bus_filter(df):
             (df['lat'].between(37.77874 - .01, 37.77874 + .01) & df['lng'].between(-122.4147 - .01, -122.4147 + .01))]
 
     df = df[df['where'] != 'tenderloin']
+    df = df[df['where'] != 'downtown / civic / van ness']
     return df
 
 apts_df = bus_filter(apts_df_raw).drop(columns = ['geotag']).drop_duplicates(subset = ["name"])
