@@ -3,7 +3,6 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import json
-from git import Repo
 
 apts = CraigslistHousing(
     site='sfbay', 
@@ -28,7 +27,7 @@ for i in apts_list:
             del i['last_updated']
             del i['has_image']
             del i['deleted']
-            i['image_url'] = BeautifulSoup(requests.get(i['url']).text).select("img")[0]['src']
+            i['image_url'] = BeautifulSoup(requests.get(i['url']).text, features="html.parser").select("img")[0]['src']
 
 apts_df_raw = pd.DataFrame(apts_list)
 
@@ -62,18 +61,3 @@ with open('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_json.j
     json.dump(apts_json, f)
 
 apts_df.to_csv('/Users/Jack/Documents/GitHub/jackdbastian.github.io/_data/apts_csv.csv', index = False)
-
-PATH_OF_GIT_REPO = r'/Users/Jack/Documents/GitHub/jackdbastian.github.io/.git'  # make sure .git folder is properly configured
-COMMIT_MESSAGE = 'automatic craigslist data update'
-
-def git_push():
-    try:
-        repo = Repo(PATH_OF_GIT_REPO)
-        repo.git.add(update=True)
-        repo.index.commit(COMMIT_MESSAGE)
-        origin = repo.remote(name='origin')
-        origin.push()
-    except:
-        print('Some error occured while pushing the code')    
-
-git_push()
