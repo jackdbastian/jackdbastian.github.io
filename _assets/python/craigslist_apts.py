@@ -23,11 +23,11 @@ apts = CraigslistHousing(
 apts_list = list(apts.get_results(geotagged=True))
 
 for i in apts_list:
-            del i['repost_of']
-            del i['last_updated']
-            del i['has_image']
-            del i['deleted']
-            i['image_url'] = BeautifulSoup(requests.get(i['url']).text, features="html.parser").select("img")[0]['src']
+    del i['repost_of']
+    del i['last_updated']
+    del i['has_image']
+    del i['deleted']
+    i['image_url'] = BeautifulSoup(requests.get(i['url']).text, features="html.parser").select("img")[0]['src']
 
 apts_df_raw = pd.DataFrame(apts_list)
 
