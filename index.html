@@ -25,25 +25,31 @@
 </head>
 <body>
     <h1 id="text"></h1>
-    <button id="play-button">Play</button>
+    <button id="play-button">Stop</button>
     <script>
-        const element = document.getElementById('text')
-        const playButton = document.getElementById('play-button')
+        const element = document.getElementById('text');
+        const playButton = document.getElementById('play-button');
+        
+        let bassWaveType = "sawtooth";
+        let bassFilterCutoff = 1500;
+        let bassFilterQ = 10;
+
+        let delayWaveType = "sawtooth";
+        let delayFilterCutoff = 7;
+        let delayFilterQ = 10
+        
         // Add an event listener to the document that listens for the 'keydown' event
         document.addEventListener('keydown', async () => {
         // Check if the pressed key is the spacebar (key code 32 or key " ")
             if (event.keyCode === 32 || event.key === " " && Tone.context.state != "running" ) {
                 await Tone.start()
+                Tone.Transport.start()
 	            console.log('audio is ready')
             }
         });
 
-        playButton.addEventListener('click', async () => {
-        // Check ifhe pressed key is the spacebar (key code 32 or key " ")
-            if (Tone.context.state != "running" ) {
-                await Tone.start()
-	            console.log('audio is ready')
-            }
+        playButton.addEventListener('click', () => {
+            Tone.Transport.stop()
         });
 
         // const reverb = new Tone.JCReverb(0.2).connect(melodyChannel);
@@ -55,7 +61,7 @@
         
         const bassSynth  = new Tone.MonoSynth({
             oscillator: {
-                type: "sawtooth"
+                type: bassWaveType
             },
             envelope: {
                 attack: 0.7,
@@ -63,18 +69,24 @@
                 release: 15
             },
             filter: {
-                cutoff: 3000,
-                type: "lowpass"
+                frequency: bassFilterCutoff,
+                type: "lowpass",
+                Q: bassFilterQ
             }
         }).connect(bassChannel);
 
         const delaySynth = new Tone.MonoSynth({
             oscillator: {
-                type: "sawtooth"
+                type: delayWaveType
             },
             envelope: {
                 attack: 0.2,
                 release: 5
+            },
+            filter: {
+                frequency: delayFilterCutoff,
+                type: "lowpass",
+                Q: delayFilterQ
             }
         }).connect(delay);
 
@@ -89,8 +101,6 @@
 
         Tone.Transport.bpm.value = 90;
 
-        Tone.Transport.start(); 
-        
     </script>
 </body>
 </html>
