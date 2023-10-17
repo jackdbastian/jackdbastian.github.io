@@ -17,21 +17,35 @@
             font-size: 36px;
             margin-top: 20%;
         }
+
+        button {
+            margin-top: 5%;
+        }
     </style>
 </head>
 <body>
-    <h1  id="text"></h1>
+    <h1 id="text"></h1>
+    <button id="play-button">Play</button>
     <script>
-        let element = document.getElementById('text')
+        const element = document.getElementById('text')
+        const playButton = document.getElementById('play-button')
         // Add an event listener to the document that listens for the 'keydown' event
         document.addEventListener('keydown', async () => {
         // Check if the pressed key is the spacebar (key code 32 or key " ")
-            if (event.keyCode === 32 || event.key === " ") {
+            if (event.keyCode === 32 || event.key === " " && Tone.context.state != "running" ) {
                 await Tone.start()
 	            console.log('audio is ready')
             }
         });
-        
+
+        playButton.addEventListener('click', async () => {
+        // Check ifhe pressed key is the spacebar (key code 32 or key " ")
+            if (Tone.context.state != "running" ) {
+                await Tone.start()
+	            console.log('audio is ready')
+            }
+        });
+
         // const reverb = new Tone.JCReverb(0.2).connect(melodyChannel);
         // const pingPong = new Tone.PingPongDelay("4n", 0.4).toDestination();
         const delaySynthChannel = new Tone.Channel(-9, -0.3).toDestination();
