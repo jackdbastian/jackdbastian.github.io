@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tone.js Synth Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/tone@14"></script>
     <style>
         body {
-            background-color: lightblue;
+            background-color: darkblue;
             text-align: center;
             font-family: Arial, sans-serif;
         }
@@ -14,9 +17,80 @@
             font-size: 36px;
             margin-top: 20%;
         }
+
+        button {
+            margin-top: 5%;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome</h1>
+    <h1 id="text"></h1>
+    <button id="play-button">Play</button>
+    <script>
+        const element = document.getElementById('text')
+        const playButton = document.getElementById('play-button')
+        // Add an event listener to the document that listens for the 'keydown' event
+        document.addEventListener('keydown', async () => {
+        // Check if the pressed key is the spacebar (key code 32 or key " ")
+            if (event.keyCode === 32 || event.key === " " && Tone.context.state != "running" ) {
+                await Tone.start()
+	            console.log('audio is ready')
+            }
+        });
+
+        playButton.addEventListener('click', async () => {
+        // Check ifhe pressed key is the spacebar (key code 32 or key " ")
+            if (Tone.context.state != "running" ) {
+                await Tone.start()
+	            console.log('audio is ready')
+            }
+        });
+
+        // const reverb = new Tone.JCReverb(0.2).connect(melodyChannel);
+        // const pingPong = new Tone.PingPongDelay("4n", 0.4).toDestination();
+        const delaySynthChannel = new Tone.Channel(-9, -0.3).toDestination();
+        const bassChannel = new Tone.Channel(-10, .3).toDestination();
+        
+        const delay = new Tone.FeedbackDelay("4n", 0.7).connect(delaySynthChannel);
+        
+        const bassSynth  = new Tone.MonoSynth({
+            oscillator: {
+                type: "sawtooth"
+            },
+            envelope: {
+                attack: 0.7,
+                decay: 7,
+                release: 15
+            },
+            filter: {
+                cutoff: 3000,
+                type: "lowpass"
+            }
+        }).connect(bassChannel);
+
+        const delaySynth = new Tone.MonoSynth({
+            oscillator: {
+                type: "sawtooth"
+            },
+            envelope: {
+                attack: 0.2,
+                release: 5
+            }
+        }).connect(delay);
+
+        const seq = new Tone.Sequence((time, note) => {
+            delaySynth.triggerAttackRelease(note, "32n", time);
+            element.textContent = note;
+        }, ["D4", "F4", ["G4", "A4"], "A#4", "G4", "F4"]).start(0);
+
+        const bassSeq = new Tone.Sequence((time, note) => {
+            bassSynth.triggerAttackRelease(note, "32n", time);
+        }, ["C2", "G2"], "1n").start("4n");
+
+        Tone.Transport.bpm.value = 90;
+
+        Tone.Transport.start(); 
+        
+    </script>
 </body>
 </html>
