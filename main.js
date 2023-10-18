@@ -2,7 +2,7 @@ const element = document.getElementById('text');
 const playButton = document.getElementById('play-button');
 
 let melodyWaveType = "triangle";
-let melodyFilterCutoff = 3300;
+let melodyFilterCutoff = 2300;
 let melodyFilterQ = 40;
 let melodySeqNotes = ["D5", "G5", "F5", "A5", "G5", "C6", "D6"];
 
@@ -18,7 +18,7 @@ let bassSeqNotes = ["C2", "G2"];
 
 const reverb = new Tone.Reverb(0.5).toDestination();
 
-const melodySynthChannel = new Tone.Channel(-1, 0.4).connect(reverb);
+const melodySynthChannel = new Tone.Channel(-2, 0.4).connect(reverb);
 const delaySynthChannel = new Tone.Channel(-11, -0.4).connect(reverb);
 const bassChannel = new Tone.Channel(6, 0).connect(reverb);
 
