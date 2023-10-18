@@ -1,19 +1,26 @@
 const element = document.getElementById('text');
 const playButton = document.getElementById('play-button');
 
-let bassWaveType = "sawtooth";
-let bassFilterCutoff = 1500;
-let bassFilterQ = 10;
-
 let delayWaveType = "sawtooth";
+let delayFilterCutoff = 1300;
+let delayFilterQ = 40;
 
-const delaySynthChannel = new Tone.Channel(-9, -0.3).toDestination();
-const bassChannel = new Tone.Channel(-10, .3).toDestination();
+let bassWaveType = "sawtooth";
+let bassFilterCutoff = 700;
+let bassFilterQ = 40;
 
-const delayFilter = new Tone.Filter(1200, "lowpass")
-delayFilter.Q = 2000;
-delayFilter.connect(delaySynthChannel);
-const delay = new Tone.FeedbackDelay("4n", 0.7).connect(delayFilter);
+const reverb = new Tone.Reverb(0.5).toDestination();
+
+const delaySynthChannel = new Tone.Channel(-11, -0.4).connect(reverb);
+const bassChannel = new Tone.Channel(-1, 0.4).connect(reverb);
+
+const delayFilter = new Tone.Filter(delayFilterCutoff, "lowpass");
+delayFilter.Q = delayFilterQ;
+
+const bassFilter = new Tone.Filter(bassFilterCutoff, "lowpass");
+delayFilter.Q = bassFilterQ;
+
+const delay = new Tone.FeedbackDelay("4n", 0.7);
 
 // Add an event listener to the document that listens for the 'keydown' event
 document.addEventListener('keydown', async () => {
@@ -40,25 +47,32 @@ const bassSynth  = new Tone.Synth({
         decay: 7,
         release: 15
     }
-}).connect(bassChannel);
+}).chain(bassFilter, bassChannel);
+console.log(bassSynth)
 
+// Delay synth
 const delaySynth = new Tone.Synth({
     oscillator: {
         type: delayWaveType
     },
     envelope: {
-        attack: 0.2,
+        attack: 0.3,
         release: 5
     }
-}).connect(delay);
+}).chain(delay, delayFilter, delaySynthChannel);
 
+// Defining sequence
 const seq = new Tone.Sequence((time, note) => {
     delaySynth.triggerAttackRelease(note, "32n", time);
-    element.textContent = note;
 }, ["D4", "F4", ["G4", "A4"], "A#4", "G4", "F4"]).start(0);
 
+// Defining sequence
 const bassSeq = new Tone.Sequence((time, note) => {
     bassSynth.triggerAttackRelease(note, "32n", time);
+    Tone.Draw.schedule(() => {
+        element.textContent = note;
+    }, time);
 }, ["C2", "G2"], "1n").start("4n");
 
+// Set sequence bpm
 Tone.Transport.bpm.value = 90;
