@@ -1,18 +1,29 @@
 const element = document.getElementById('text');
 const playButton = document.getElementById('play-button');
 
-let delayWaveType = "sawtooth";
+let melodyWaveType = "triangle";
+let melodyFilterCutoff = 3300;
+let melodyFilterQ = 40;
+let melodySeqNotes = ["D5", "G5", "F5", "A5", "G5", "C6", "D6"];
+
+let delayWaveType = "pulse";
 let delayFilterCutoff = 1300;
 let delayFilterQ = 40;
+let delaySeqNotes = ["D4", "F4", ["G4", "A4"], "A#4", "G4", "F4"];
 
 let bassWaveType = "sawtooth";
 let bassFilterCutoff = 700;
 let bassFilterQ = 40;
+let bassSeqNotes = ["C2", "G2"];
 
 const reverb = new Tone.Reverb(0.5).toDestination();
 
+const melodySynthChannel = new Tone.Channel(-1, 0.4).connect(reverb);
 const delaySynthChannel = new Tone.Channel(-11, -0.4).connect(reverb);
-const bassChannel = new Tone.Channel(-1, 0.4).connect(reverb);
+const bassChannel = new Tone.Channel(6, 0).connect(reverb);
+
+const melodyFilter = new Tone.Filter(melodyFilterCutoff, "lowpass");
+melodyFilter.Q = melodyFilterQ;
 
 const delayFilter = new Tone.Filter(delayFilterCutoff, "lowpass");
 delayFilter.Q = delayFilterQ;
@@ -37,19 +48,6 @@ playButton.addEventListener('click', () => {
     Tone.Transport.stop()
 });
 
-// Bass synth
-const bassSynth  = new Tone.Synth({
-    oscillator: {
-        type: bassWaveType
-    },
-    envelope: {
-        attack: 0.7,
-        decay: 7,
-        release: 15
-    }
-}).chain(bassFilter, bassChannel);
-console.log(bassSynth)
-
 // Delay synth
 const delaySynth = new Tone.Synth({
     oscillator: {
@@ -61,18 +59,48 @@ const delaySynth = new Tone.Synth({
     }
 }).chain(delay, delayFilter, delaySynthChannel);
 
-// Defining sequence
-const seq = new Tone.Sequence((time, note) => {
-    delaySynth.triggerAttackRelease(note, "32n", time);
-}, ["D4", "F4", ["G4", "A4"], "A#4", "G4", "F4"]).start(0);
+// Bass synth
+const bassSynth  = new Tone.Synth({
+    oscillator: {
+        type: bassWaveType
+    },
+    envelope: {
+        attack: 0.7,
+        decay: 7,
+        release: 15
+    }
+}).chain(bassFilter, bassChannel);
 
-// Defining sequence
-const bassSeq = new Tone.Sequence((time, note) => {
-    bassSynth.triggerAttackRelease(note, "32n", time);
+// Melody synth
+const melodySynth = new Tone.Synth({
+    oscillator: {
+        type: melodyWaveType
+    },
+    envelope: {
+        attack: 0.3,
+        decay: 80,
+        sustain: 1,
+        release: 50
+    }
+}).chain(melodyFilter, melodySynthChannel);
+
+// Melody synth sequence
+const melodySeq = new Tone.Sequence((time, note) => {
+    melodySynth.triggerAttackRelease(note, "32n", time);
     Tone.Draw.schedule(() => {
         element.textContent = note;
     }, time);
-}, ["C2", "G2"], "1n").start("4n");
+}, melodySeqNotes, "1n").start("1n");
+
+// Delay synth sequence
+const delaySeq = new Tone.Sequence((time, note) => {
+    delaySynth.triggerAttackRelease(note, "32n", time);
+}, delaySeqNotes).start(0);
+
+// Bass synth sequence
+const bassSeq = new Tone.Sequence((time, note) => {
+    bassSynth.triggerAttackRelease(note, "32n", time);
+}, bassSeqNotes, "1n").start("4n");
 
 // Set sequence bpm
 Tone.Transport.bpm.value = 90;
