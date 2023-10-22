@@ -2,6 +2,6 @@
 title: Tone.js and Three.js
 description: Interactive music
 ---
-PRESS SPACE
-
+Some text
+## Some text
 {{< sequence >}}

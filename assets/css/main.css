@@ -75,6 +75,13 @@ ul > li::before {
   font-weight: bold;
 }
 
+.canvas {
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+  height: 400px;
+}
+
 /* Images */
 img {
   border: 3px solid #ececec;
