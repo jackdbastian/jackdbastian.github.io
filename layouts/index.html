@@ -16,7 +16,7 @@
 				{{ range $paginator.Pages }}
 				<section class="list-item">
 					<h1 class="title"><a href="{{ .RelPermalink }}">{{.Title}}</a></h1>
-					<br>{{ template "partials/pagedescription.html" . }}
+					{{ template "partials/pagedescription.html" . }}
 				</section>
 				{{ end }}
 				{{ template "partials/paginator.html" . }}
