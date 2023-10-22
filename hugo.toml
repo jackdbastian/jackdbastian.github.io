@@ -1,12 +1,12 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'Jack Bastian'
+subtitle = 'sound experiments'
 theme = 'archie'
 
 [params]
 	mode="toggle" # color-mode → light,dark,toggle or auto
 	useCDN=false # don't use CDNs for fonts and icons, instead serve them locally.
-	subtitle = "Portfolio Site"
 	mathjax = true # enable MathJax support
 	katex = true # enable KaTeX support
 
@@ -22,24 +22,19 @@ name = "Instagram"
 icon = "instagram"
 url = "https://instagram.com/recorded.on.cassette/"
 
+[[params.social]]
+name = "LinkedIn"
+icon = "linkedin"
+url = "https://www.linkedin.com/in/jack-bastian-3aa21415b"
+
 # Main menu Items
 
-[[menu.main]]
-name = "Home"
-url = "/"
-weight = 1
-
-[[menu.main]]
-name = "All posts"
-url = "/posts"
-weight = 2
+# [[menu.main]]
+# name = "Home"
+# url = "/"
+# weight = 1
 
 [[menu.main]]
 name = "About"
 url = "/about"
 weight = 3
-
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 4
