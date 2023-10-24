@@ -1,7 +1,5 @@
 ---
-title: Tone.js and Three.js
-description: Interactive music
+title: Look at nothing
+description: Trying out some Tone and Three stuff
 ---
-Some text
-## Some text
-{{< sequence >}}
+Coming soon!!!
