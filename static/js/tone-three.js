@@ -7,33 +7,49 @@ function main() {
 	const fov = 75;
 	const aspect = 2; 
 	const near = 0.1; 
-	const far = 5;
+	const far = 50;
 
 	const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-	camera.position.z = 2;
+	camera.position.z = 10;
 
 	const scene = new THREE.Scene();
-
-	scene.background = new THREE.Color(0x202124);
-
-	{
-		const color = 0xFFFFFF;
-		const intensity = 10;
-		const light = new THREE.DirectionalLight(color, intensity);
-		light.position.set(-2, 2, 4);
-		scene.add(light);
+	
+	if (document.getElementById("darkModeStyle").disabled == true) {
+		scene.background = new THREE.Color(0xffffff);
+	} else {
+		scene.background = new THREE.Color(0x202124);
 	}
 
-	const boxWidth = 1;
-	const boxHeight = 1;
-	const boxDepth = 1;
-	const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+	const lightColor = 0xFFFFFF;
+	const lightIntensity = 5;
+	const light = new THREE.DirectionalLight(lightColor, lightIntensity);
+	light.position.set(-2, 1, 4);
 
-	const material = new THREE.MeshPhongMaterial({color: 0x5a62a3});
+	scene.add(light);
 
-	const cube = new THREE.Mesh(geometry, material);
+	function addEquallySpacedSpheres(scene, radius, totalSpheres, spacing) {
+		const totalWidth = (totalSpheres - 1) * spacing; // Total width occupied by spheres
+		const startX = -totalWidth / 2; // Starting X position to center the spheres
 
-	scene.add(cube);
+		const spheres = [];
+	  
+		for (let i = 0; i < totalSpheres; i++) {
+		  const sphereGeometry = new THREE.SphereGeometry(radius, 32, 32);
+		  const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+		  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+	  
+		  // Calculate the X position based on the centered starting position and spacing
+		  const xPos = startX + i * spacing;
+	  
+		  sphere.position.set(xPos, 0, 0);
+	  
+		  scene.add(sphere);
+		  spheres.push(sphere)
+		}
+		return spheres;
+	  }
+
+	const spheres = addEquallySpacedSpheres(scene, 0.5, 6, 2);
 
 	function resizeRendererToDisplaySize(renderer) {
 		const canvas = renderer.domElement;
@@ -55,10 +71,13 @@ function main() {
 			camera.updateProjectionMatrix();
 		}
 
-		cube.rotation.x = time;
-		cube.rotation.y = time/2;
+		spheres.forEach((sphere, index) => {
+			const newYPos = Math.sin(time + index) * (index + 1); // Example animation
+			sphere.position.setY(newYPos);
+		});
 
 		renderer.render(scene, camera);
+
 		requestAnimationFrame(render);
 	}
 
@@ -70,10 +89,7 @@ function main() {
 
     document.addEventListener("keydown", function(event) {
         if (event.key === " " || event.key === "Spacebar") {
-            // Prevent the default behavior of the spacebar (e.g., scrolling the page)
             event.preventDefault();
-    
-            // Trigger a click event on the button
             button.click();
         }
     });
